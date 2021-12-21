@@ -9,9 +9,10 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var authenticate = require('./controllers/authentication');
 var passport = require('passport');
+var config = require('./config');
 
 // server connection
-const url = 'mongodb://localhost:27017/conFusion';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
@@ -35,39 +36,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-
-
-
-//session
-app.use(session({
-  name: 'session-id',
-  secret: '12345-67890-09876-54321',
-  saveUninitialized: false,
-  resave: false,
-  store: new FileStore()
-}));
 app.use(passport.initialize());
-app.use(passport.session());
-
-//sign up and login
-app.use('/users', usersRouter);
-
-//authentication
-app.use((req, res, next) => {
-  console.log(req.user);
-  if (!req.user) {
-    var err = new Error('You are not authenticated!');
-    err.status = 403;
-    next(err);
-  }
-  else {
-        next();
-  }
-});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
