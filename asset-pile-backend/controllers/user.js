@@ -41,8 +41,8 @@ exports.signup = (req, res) => {
 
 exports.login = (req, res) => {
   // console.log(req.user.username);
-  const { username } = req.user.username;
-  User.findOne(username).exec((err, user) => {
+  const { username } = req.user._id;
+  User.findById(username).exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({
         msg: "User does not exist..",
@@ -61,7 +61,6 @@ exports.login = (req, res) => {
 
 exports.logout = (req, res) => {
   // console.log(req.session);
-  
 };
 
 exports.userAssetList = (req, res) => {
