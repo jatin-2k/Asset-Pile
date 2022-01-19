@@ -1,32 +1,22 @@
 var express = require("express");
-var userRouter = express.Router();
-var passport = require("passport");
-var authenticate = require("../controllers/authentication");
+var router = express.Router();
 const {
-  signup,
-  login,
-  logout,
-  userAssetList,
-  getUserById,
-} = require("../controllers/user");
+  isSignedIn,
+  isAuthenticated,
+} = require("../controllers/authentication");
+const { userAssetList, getUserById } = require("../controllers/user");
 
-userRouter.use(express.json());
+router.use(express.json());
 
-userRouter.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("respond with a resource");
 });
 
-userRouter.param("userId", getUserById);
+router.param("userId", getUserById);
 
-userRouter.post("/signup", signup);
+router.get("/test/:userId", userAssetList);
 
-userRouter.post("/login", passport.authenticate("local"), login);
+router.get("/user/assets/:userId", isSignedIn, isAuthenticated, userAssetList);
 
-userRouter.get("/logout", logout);
-
-userRouter.get("/test/:userId", userAssetList);
-
-userRouter.get("/assets/:userId", authenticate.verifyUser, userAssetList);
-
-// userRouter.post("/addassets/:userId");
-module.exports = userRouter;
+// router.post("/addassets/:userId");
+module.exports = router;

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -7,7 +9,7 @@ var cors = require("cors");
 var mongoose = require("mongoose");
 var session = require("express-session");
 var FileStore = require("session-file-store")(session);
-var authenticate = require("./controllers/authentication");
+
 var passport = require("passport");
 var config = require("./config");
 
@@ -24,8 +26,8 @@ connect
   });
 
 // routers
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/user");
+const usersRoutes = require("./routes/user");
+const authRoutes = require("./routes/auth");
 
 var app = express();
 
@@ -43,13 +45,13 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "public")));
 
 // routes
-app.use("/", indexRouter);
-app.use("/user", usersRouter);
+app.use("/api", usersRoutes);
+app.use("/api", authRoutes);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+// app.use(function (req, res, next) {
+//   next(createError(404));
+// });
 
 // error handler
 app.use(function (err, req, res, next) {

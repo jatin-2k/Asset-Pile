@@ -1,15 +1,55 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-var passportLocalMongoose = require("passport-local-mongoose");
+const crypto = require("crypto");
 
-const userSchema = new Schema({
-  assets: {
-    type: Array,
-    default: ["BTC", "USD", "DOGE"],
+const { v4: uuidv4 } = require("uuid");
+
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    assets: {
+      type: Array,
+      default: ["BTC", "USD", "DOGE"],
+    },
+    encry_password: {
+      type: String,
+      required: true,
+    },
+    salt: String,
   },
-});
+  { timestamps: true }
+);
 
-userSchema.plugin(passportLocalMongoose);
+userSchema
+  .virtual("password")
+  .set(function (password) {
+    this._password = password;
+    this.salt = uuidv4();
+    this.encry_password = this.securePassword(password);
+  })
+  .get(function () {
+    return this._password;
+  });
 
-var User = mongoose.model("User", userSchema);
-module.exports = User;
+userSchema.methods = {
+  authenticate: function (plainPassword) {
+    return this.securePassword(plainPassword) == this.encry_password;
+  },
+  securePassword: function (plainPassword) {
+    if (!plainPassword) return " ";
+
+    try {
+      return crypto
+        .createHmac("sha256", this.salt)
+        .update(plainPassword)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  },
+};
+
+module.exports = mongoose.model("User", userSchema);
