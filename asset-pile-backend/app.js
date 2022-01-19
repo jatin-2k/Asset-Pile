@@ -10,11 +10,8 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var FileStore = require("session-file-store")(session);
 
-var passport = require("passport");
-var config = require("./config");
-
 // server connection
-const url = config.mongoUrl;
+const url = process.env.DATABSAE;
 const connect = mongoose.connect(url);
 
 connect
@@ -41,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-app.use(passport.initialize());
+
 app.use(express.static(path.join(__dirname, "public")));
 
 // routes
@@ -64,7 +61,7 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-const port = config.PORT || 8000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`App is running at ${port}`);
 });
