@@ -4,7 +4,11 @@ const {
   isSignedIn,
   isAuthenticated,
 } = require("../controllers/authentication");
-const { userAssetList, getUserById } = require("../controllers/user");
+const {
+  userAssetList,
+  getUserById,
+  addUserAssets,
+} = require("../controllers/user");
 
 router.use(express.json());
 
@@ -15,6 +19,12 @@ router.get("/", (req, res) => {
 router.param("userId", getUserById);
 
 router.get("/test/:userId", userAssetList);
+
+router.post(
+  "/user/addasset/:userId",
+
+  addUserAssets
+);
 
 router.get("/user/assets/:userId", isSignedIn, isAuthenticated, userAssetList);
 
