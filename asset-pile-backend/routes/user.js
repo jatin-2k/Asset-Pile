@@ -22,7 +22,8 @@ router.get("/test/:userId", userAssetList);
 
 router.post(
   "/user/addasset/:userId",
-
+  isSignedIn,
+  isAuthenticated,
   addUserAssets
 );
 
