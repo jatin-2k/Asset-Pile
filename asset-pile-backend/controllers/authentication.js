@@ -12,15 +12,17 @@ exports.signup = (req, res) => {
     });
   }
   const user = new User(req.body);
+  // console.log(user);
   user.save((err, user) => {
     if (err) {
-      return res.staus(400).json({
-        err: "Not able to save user in DB..",
+      return res.status(400).json({
+        err: "NOT able to save user in DB..",
+        error: err,
       });
     } else {
       res.json({
         name: user.name,
-        // email:user.email,
+        // email: user.email,
         id: user._id,
       });
     }
