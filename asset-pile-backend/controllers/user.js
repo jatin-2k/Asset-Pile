@@ -13,10 +13,12 @@ exports.getUserById = (req, res, next, id) => {
   });
 };
 
-exports.addUserAssets = (req, res, next) => {
+exports.addUserAssets = (req, res) => {
   User.findByIdAndUpdate(
-    { _id: req.profile._id },
-    { $push: { assets: req.body.asset } },
+    {
+      _id: req.profile._id,
+    },
+    { $addToSet: { assets: req.body.asset } },
     { new: true },
     (err, user) => {
       if (err) {
@@ -24,10 +26,9 @@ exports.addUserAssets = (req, res, next) => {
           error: "Unable to add the asset",
         });
       }
-      res.json({
-        user: user,
+      return res.json({
+        user: user.assets,
       });
-      next();
     }
   );
 };
