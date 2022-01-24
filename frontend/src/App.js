@@ -1,9 +1,11 @@
 import "./App.css";
-
+import LineChart from "./components/LineChart";
+const { getUsersAssetList } = require("./helper/index");
 const App = () => {
+  getUsersAssetList();
   return (
     <div>
-      <h1>helloworld</h1>
+      <LineChart />
     </div>
   );
 };

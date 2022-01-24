@@ -8,6 +8,7 @@ const {
   userAssetList,
   getUserById,
   addUserAssets,
+  test,
 } = require("../controllers/user");
 
 router.use(express.json());
@@ -15,7 +16,7 @@ router.use(express.json());
 router.get("/", (req, res) => {
   res.send("respond with a resource");
 });
-
+router.get("/test", test);
 router.param("userId", getUserById);
 
 router.get("/test/:userId", userAssetList);
