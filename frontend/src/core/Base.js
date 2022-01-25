@@ -5,8 +5,7 @@ const Base = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <div className="container container-fluid my-5">{children}</div>
-      <h1>Base</h1>
+      <div className="container container-fluid my-5 ">{children}</div>
     </div>
   );
 };

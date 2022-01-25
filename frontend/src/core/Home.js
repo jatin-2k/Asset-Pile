@@ -2,7 +2,7 @@ import React from "react";
 import Base from "./Base";
 
 const Home = () => {
-  console.log("HOOME");
+  // console.log("HOOME");
   return (
     <div>
       <Base />

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
-import { FiCheckCircle } from "react-icons/fi";
 import { signup } from "../helper";
 import Alert from "../core/Alert";
 
@@ -14,46 +13,51 @@ const Signup = () => {
     success: false,
   });
   const { name, password, loading, error, success } = values;
-  const handleChange = (name) => (e) => {
+  const handleChange = (field) => (e) => {
     let val = e.target.value;
     console.log(val);
-    setValues({ ...values, error: false, [name]: val });
+    setValues({ ...values, error: false, [field]: val });
   };
 
   const onSubmit = (event) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    // console.log("YOUR NAME " + typeof name);
     if (!name) {
-      setValues({ ...values, error: "Please enter a First Name number" });
-    }
-    if (!password.match(/^[a-z0-9]+$/i)) {
+      return setValues({
+        ...values,
+        error: "Please enter a First Name number",
+      });
+    } else if (!password.match(/^[a-z0-9]+$/i)) {
       setValues({
         ...values,
         error: "Password can only contain letter and numbers",
       });
       return;
+    } else {
+      event.preventDefault();
+      setValues({ ...values, error: false, loading: true });
+      signup({ name, password })
+        .then((data) => {
+          // console.log(data);
+          if (data.error) {
+            // console.log(data);
+            setValues({
+              ...values,
+              error: data.error,
+              loading: false,
+              success: false,
+            });
+          } else {
+            setValues({
+              ...values,
+              name: "",
+              password: "",
+              success: true,
+            });
+          }
+        })
+        .catch((err) => console.log("Error: ", err));
     }
-    event.preventDefault();
-    setValues({ ...values, error: false, loading: true });
-    signup({ name, password })
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-          setValues({
-            ...values,
-            error: data.error,
-            loading: false,
-            success: false,
-          });
-        } else {
-          setValues({
-            ...values,
-            name: "",
-            password: "",
-            success: true,
-          });
-        }
-      })
-      .catch((err) => console.log("Error: ", err));
   };
 
   const loader = () => {
@@ -61,7 +65,7 @@ const Signup = () => {
       loading && (
         <div className="d-flex justify-content-center">
           <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only"></span>
           </div>
         </div>
       )
@@ -84,7 +88,7 @@ const Signup = () => {
 
   const signUpForm = () => {
     return (
-      <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+      <section className="p-5 " style={{ backgroundColor: "#eee" }}>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
@@ -111,7 +115,7 @@ const Signup = () => {
                               className="form-control"
                             />
                             <label className="htmlForm-label" htmlFor="name">
-                              Your Name
+                              Your name
                             </label>
                           </div>
                         </div>
@@ -134,7 +138,7 @@ const Signup = () => {
                               className="htmlForm-label"
                               htmlFor="form3Example4c"
                             >
-                              Password
+                              Password {password}
                             </label>
                           </div>
                         </div>
@@ -168,7 +172,7 @@ const Signup = () => {
                       </form>
                     </div>
                     <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                      <img
+                      <image
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
                         className="img-fluid"
                         alt="Sample image"
