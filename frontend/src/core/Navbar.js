@@ -1,18 +1,16 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 // import { FaGem, FaHeart, FaBars } from "react-icons/fa";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { signout, isAuthenticated } from "../helper/index";
 import "react-pro-sidebar/dist/css/styles.css";
 const Navbar = () => {
-  const [isNavToggled, setIsNavToggled] = useState(false);
+  // const [isNavToggled, setIsNavToggled] = useState(false);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
-          <a className="navbar-brand px-3" href="#">
-            Navbar Brand
-          </a>
+          <span className="navbar-brand px-3">Navbar Brand</span>
           <button
             className="navbar-toggler"
             type="button"
@@ -59,6 +57,30 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 </Fragment>
+              )}
+              {isAuthenticated() && (
+                <li className="nav-item ms-2">
+                  <NavLink
+                    exact="true"
+                    to="/"
+                    onClick={() => signout()}
+                    className="nav-link primary-text  ps-0 ps-lg-3"
+                  >
+                    Signout
+                  </NavLink>
+                </li>
+              )}
+              {isAuthenticated() && (
+                <li className="nav-item ms-2">
+                  <NavLink
+                    exact="true"
+                    to="/"
+                    // onClick={() => signout()}
+                    className="nav-link primary-text  ps-0 ps-lg-3"
+                  >
+                    Portfolio
+                  </NavLink>
+                </li>
               )}
             </ul>
           </div>
