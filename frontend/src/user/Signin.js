@@ -90,7 +90,7 @@ const Signin = () => {
         >
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-9 col-lg-6 col-xl-5">
-              <image
+              <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 className="img-fluid"
                 alt="Sample image"
@@ -112,7 +112,7 @@ const Signin = () => {
                     className="form-control form-control-lg"
                     placeholder="Enter your username"
                   />
-                  <label className="htmlForm-label" htmlFor="form3Example3">
+                  <label className="htmlForm-label" htmlFor="Name">
                     Name
                   </label>
                 </div>

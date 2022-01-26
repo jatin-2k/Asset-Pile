@@ -74,7 +74,7 @@ const Navbar = () => {
                 <li className="nav-item ms-2">
                   <NavLink
                     exact="true"
-                    to="/"
+                    to="/portfolio"
                     // onClick={() => signout()}
                     className="nav-link primary-text  ps-0 ps-lg-3"
                   >

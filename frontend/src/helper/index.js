@@ -26,6 +26,20 @@ export const signin = (user) => {
     .catch((err) => console.log(err));
 };
 
+export const addAssetsToUserList = (userId, token, data) => {
+  return fetch(`${API}/user/addasset/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
 export const authenticate = (data, next) => {
   if (typeof window !== "undefined") {
     localStorage.setItem("jwt", JSON.stringify(data));

@@ -60,19 +60,26 @@ const button = () => {
     </td>
   );
 };
-const row = (asset) => {
+const row = (asset, index) => {
+  // console.log(element.symbol);
   return (
-    <tr>
-      {name(asset)}
+    <tr key={index}>
+      <td>
+        <p className="mb-1 text-dark font-weight-medium">{asset.symbol}</p>
+        {/* <small className="font-weight-medium">{asset.fullname}</small> */}
+      </td>
       {price(asset.historical[0].open)}
       {change(asset.historical[0].change)}
       {button()}
     </tr>
   );
 };
+
 const rows = (assets) => {
-  return assets.map((asset) => {
-    return row(asset);
+  // console.log(typeof arr, arr);
+  return assets.map((asset, index) => {
+    // console.log(element);
+    return row(asset, index);
   });
 };
 //#endregion
