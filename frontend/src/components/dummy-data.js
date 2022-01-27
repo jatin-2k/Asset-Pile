@@ -1,4 +1,4 @@
-const data = [
+const dummyData = [
   {
     "symbol" : "AAPL",
     "historical" : [ {
@@ -67,5 +67,5 @@ const data = [
   }
 ];
   
-export default data;
+export default dummyData;
   
